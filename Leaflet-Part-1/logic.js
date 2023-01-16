@@ -1,5 +1,6 @@
 // Store our API endpoint as queryUrl.
-var queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&endtime=2021-01-02&maxlongitude=-69.52148437&minlongitude=-123.83789062&maxlatitude=48.74894534&minlatitude=25.16517337";
+var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
+//var queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&endtime=2021-01&maxlongitude=-69.52148437&minlongitude=-123.83789062&maxlatitude=48.74894534&minlatitude=25.16517337";
 
 // Perform a GET request to the query URL/
 d3.json(queryUrl).then(function (data) {
@@ -19,7 +20,10 @@ function createFeatures(earthquakeData) {
   // Create a GeoJSON layer that contains the features array on the earthquakeData object.
   // Run the onEachFeature function once for each piece of data in the array.
   var earthquakes = L.geoJSON(earthquakeData, {
-    onEachFeature: onEachFeature
+    onEachFeature: onEachFeature,
+    pointToLayer: function (feature, latlng) {
+      return L.circleMarker(latlng);
+  }
   });
 
   // Send our earthquakes layer to the createMap function/
@@ -56,6 +60,10 @@ function createMap(earthquakes) {
     zoom: 5,
     layers: [street, earthquakes]
   });
+
+  function markerSize(earthquakes) {
+    return Math.sqrt(earthquakes) * 50;}
+
 
   // Create a layer control.
   // Pass it our baseMaps and overlayMaps.
