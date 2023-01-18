@@ -61,29 +61,40 @@ function createMap(earthquakes) {
     layers: [street, earthquakes]
   });
 
-  function markerSize(earthquakes) {
-    return Math.sqrt(earthquakes) * 50;}
-
-
   // Create a layer control.
   // Pass it our baseMaps and overlayMaps.
   // Add the layer control to the map.
   L.control.layers(baseMaps, overlayMaps, {
-    collapsed: false
+    collapsed: false}
+  // This function returns the style data for each of the earthquakes we plot on
+  // the map. We pass the magnitude of the earthquake into two separate functions
+  // to calculate the colour and radius.
 
-  // function chooseColor(intensity) {
-  //   if (intensity == "") return "yellow";
-  //   else if (borough == "Bronx") return "red";
-  //   else if (borough == "Manhattan") return "orange";
-  //   }
+  function styleInfo(feature) {
+    return {
+      opacity: 1,
+      fillOpacity: 1,
+      fillColor: getColor(feature.geometry.coordinates[2]),
+      color: "#000000",
+      radius: getRadius(feature.properties.mag),
+      stroke: true,
+      weight: 0.5
+    }
+  }
 
-  // L.geoJson(data, {
-  //   style: function(feature) {
-  //  return {
-  //   color: "white",
-  //   fillColor: chooseColor(feature.properties.mag),
-  //   fillOpacity: 0.5,
-  //   weight: 1.5
-  }).addTo(myMap);
-
-}
+  // This function determines the colour of the marker based on the depth of the earthquake.
+  function getColor(depth) {
+    switch (true) {
+      case depth > 90:
+        return "#1f005c";
+      case depth > 70:
+        return "#5b1060";
+      case depth > 50:
+        return "#ac255e";
+      case depth > 30:
+        return "#ca485c";
+      case depth > 10:
+        return "#e16b5c";
+      default:
+        return "#ffb56b";
+    }.addTo(myMap);}
