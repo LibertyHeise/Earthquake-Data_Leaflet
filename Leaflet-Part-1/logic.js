@@ -14,7 +14,7 @@ function createFeatures(earthquakeData) {
   // Define a function that we want to run once for each feature in the features array.
   // Give each feature a popup that describes the place and time of the earthquake.
   function onEachFeature(feature, layer) {
-    layer.bindPopup(`<h3>${feature.geometry.coordinates[2]}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
+    layer.bindPopup(`<h3>${feature.properties.place}</h3><hr><p>${new Date(feature.properties.time)}</p>`);
   }
 
   // Create a GeoJSON layer that contains the features array on the earthquakeData object.
@@ -28,7 +28,7 @@ function createFeatures(earthquakeData) {
 
   // Send our earthquakes layer to the createMap function/
   createMap(earthquakes);
-}
+} 
 
 function createMap(earthquakes) {
 
@@ -71,22 +71,22 @@ function createMap(earthquakes) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
 
-  function chooseColor(borough) {
-    if (borough == "Brooklyn") return "yellow";
-    else if (borough == "Bronx") return "red";
-    else if (borough == "Manhattan") return "orange";
-    else if (borough == "Queens") return "green";
-    else if (borough == "Staten Island") return "purple";
-    else return "black";
-    }
+  // function chooseColor(borough) {
+  //   if (borough == "Brooklyn") return "yellow";
+  //   else if (borough == "Bronx") return "red";
+  //   else if (borough == "Manhattan") return "orange";
+  //   else if (borough == "Queens") return "green";
+  //   else if (borough == "Staten Island") return "purple";
+  //   else return "black";
+  //   }
 
-  L.geoJson(data, {
-    style: function(feature) {
-      return {
-        color: "white",
-        fillColor: chooseColor(feature.properties.mag),
-        fillOpacity: 0.5,
-        weight: 1.5
+  // L.geoJson(data, {
+  //   style: function(feature) {
+  //     return {
+  //       color: "white",
+  //       fillColor: chooseColor(feature.properties.mag),
+  //       fillOpacity: 0.5,
+  //       weight: 1.5
   }).addTo(myMap);
 
 }
