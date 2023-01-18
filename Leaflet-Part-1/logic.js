@@ -71,22 +71,19 @@ function createMap(earthquakes) {
   L.control.layers(baseMaps, overlayMaps, {
     collapsed: false
 
-  // function chooseColor(borough) {
-  //   if (borough == "Brooklyn") return "yellow";
+  // function chooseColor(intensity) {
+  //   if (intensity == "") return "yellow";
   //   else if (borough == "Bronx") return "red";
   //   else if (borough == "Manhattan") return "orange";
-  //   else if (borough == "Queens") return "green";
-  //   else if (borough == "Staten Island") return "purple";
-  //   else return "black";
   //   }
 
-  // L.geoJson(data, {
-  //   style: function(feature) {
-  //     return {
-  //       color: "white",
-  //       fillColor: chooseColor(feature.properties.mag),
-  //       fillOpacity: 0.5,
-  //       weight: 1.5
+  L.geoJson(data, {
+    style: function(feature) {
+   return {
+    color: "white",
+    fillColor: chooseColor(feature.properties.mag),
+    fillOpacity: 0.5,
+    weight: 1.5
   }).addTo(myMap);
 
 }
