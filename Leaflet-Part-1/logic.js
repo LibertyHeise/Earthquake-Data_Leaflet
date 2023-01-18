@@ -77,13 +77,13 @@ function createMap(earthquakes) {
   //   else if (borough == "Manhattan") return "orange";
   //   }
 
-  L.geoJson(data, {
-    style: function(feature) {
-   return {
-    color: "white",
-    fillColor: chooseColor(feature.properties.mag),
-    fillOpacity: 0.5,
-    weight: 1.5
+  // L.geoJson(data, {
+  //   style: function(feature) {
+  //  return {
+  //   color: "white",
+  //   fillColor: chooseColor(feature.properties.mag),
+  //   fillOpacity: 0.5,
+  //   weight: 1.5
   }).addTo(myMap);
 
 }
