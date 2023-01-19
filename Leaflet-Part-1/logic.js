@@ -1,6 +1,5 @@
 // Store our API endpoint as queryUrl.
 var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
-//var queryUrl = "https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&starttime=2021-01-01&endtime=2021-01&maxlongitude=-69.52148437&minlongitude=-123.83789062&maxlatitude=48.74894534&minlatitude=25.16517337";
 
 // Perform a GET request to the query URL/
 d3.json(queryUrl).then(function (data) {
@@ -8,6 +7,34 @@ d3.json(queryUrl).then(function (data) {
   createFeatures(data.features);
   console.log(data);
 });
+function styleInfo(feature) {
+  return {
+    opacity: 1,
+    fillOpacity: 1,
+    fillColor: getColor(feature.geometry.coordinates[2]),
+    color: "#000000",
+    radius: getRadius(feature.properties.mag),
+    stroke: true,
+    weight: 0.5
+  }
+}
+
+// // This function determines the colour of the marker based on the depth of the earthquake.
+function getColor(depth) {
+  switch (true) {
+    case depth > 90:
+      return "#1f005c";
+    case depth > 70:
+      return "#5b1060";
+    case depth > 50:
+      return "#ac255e";
+    case depth > 30:
+      return "#ca485c";
+    case depth > 10:
+      return "#e16b5c";
+    default:
+      return "#ffb56b";}
+}
 
 function createFeatures(earthquakeData) {
 
@@ -19,10 +46,13 @@ function createFeatures(earthquakeData) {
 
   // Create a GeoJSON layer that contains the features array on the earthquakeData object.
   // Run the onEachFeature function once for each piece of data in the array.
+
   var earthquakes = L.geoJSON(earthquakeData, {
     onEachFeature: onEachFeature,
-    pointToLayer: function (feature, latlng) {
-      return L.circleMarker(latlng);
+    pointToLayer: function (feature,latlng) {
+      return L.circleMarker(latlng,
+      styleInfo(feature)
+      );
   }
   });
 
@@ -64,37 +94,7 @@ function createMap(earthquakes) {
   // Create a layer control.
   // Pass it our baseMaps and overlayMaps.
   // Add the layer control to the map.
-  L.control.layers(baseMaps, overlayMaps, {
-    collapsed: false}
-  // This function returns the style data for each of the earthquakes we plot on
-  // the map. We pass the magnitude of the earthquake into two separate functions
-  // to calculate the colour and radius.
-
-  function styleInfo(feature) {
-    return {
-      opacity: 1,
-      fillOpacity: 1,
-      fillColor: getColor(feature.geometry.coordinates[2]),
-      color: "#000000",
-      radius: getRadius(feature.properties.mag),
-      stroke: true,
-      weight: 0.5
-    }
-  }
-
-  // This function determines the colour of the marker based on the depth of the earthquake.
-  function getColor(depth) {
-    switch (true) {
-      case depth > 90:
-        return "#1f005c";
-      case depth > 70:
-        return "#5b1060";
-      case depth > 50:
-        return "#ac255e";
-      case depth > 30:
-        return "#ca485c";
-      case depth > 10:
-        return "#e16b5c";
-      default:
-        return "#ffb56b";
-    }.addTo(myMap);}
+  // L.control.layers(baseMaps, overlayMaps, myMap, {
+  //   collapsed: false});
+  L.control.layers(baseMaps, overlayMaps).addTo(myMap);
+}
