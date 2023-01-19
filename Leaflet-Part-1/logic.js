@@ -1,5 +1,5 @@
 // Store our API endpoint as queryUrl.
-var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/significant_month.geojson"
+var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson"
 
 // Perform a GET request to the query URL/
 d3.json(queryUrl).then(function (data) {
@@ -23,7 +23,7 @@ function getColor(depth) {
       return "#e16b5c";
     default:
       return "#ffb56b";}
-
+}
 function styleInfo(feature) {
   return {
     opacity: 1,
@@ -36,7 +36,7 @@ function styleInfo(feature) {
     }
 
   }
-
+  
 function createFeatures(earthquakeData) {
 
   // Define a function that we want to run once for each feature in the features array.
