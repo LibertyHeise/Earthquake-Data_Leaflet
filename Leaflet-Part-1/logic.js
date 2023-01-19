@@ -6,18 +6,7 @@ d3.json(queryUrl).then(function (data) {
   // Once we get a response, send the data.features object to the createFeatures function.
   createFeatures(data.features);
   console.log(data);
-});
-function styleInfo(feature) {
-  return {
-    opacity: 1,
-    fillOpacity: 1,
-    fillColor: getColor(feature.geometry.coordinates[2]),
-    color: "#000000",
-    radius: getRadius(feature.properties.mag),
-    stroke: true,
-    weight: 0.5
-  }
-}
+})
 
 // // This function determines the colour of the marker based on the depth of the earthquake.
 function getColor(depth) {
@@ -34,7 +23,19 @@ function getColor(depth) {
       return "#e16b5c";
     default:
       return "#ffb56b";}
-}
+
+function styleInfo(feature) {
+  return {
+    opacity: 1,
+    fillOpacity: 1,
+    fillColor: getColor(feature.geometry.coordinates[2]),
+    color: "#000000",
+    radius: feature.properties.mag,
+    stroke: true,
+    weight: 0.5
+    }
+
+  }
 
 function createFeatures(earthquakeData) {
 
